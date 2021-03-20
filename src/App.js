@@ -4,7 +4,7 @@ import {Accordion, AccordionContext} from "react-bootstrap";
 import {menuList} from './menu'
 import './style.scss'
 
-function ContextAwareToggle({ children, eventKey, callback }) {
+function ContextAwareToggle({ children, eventKey, callback, id }) {
     const currentEventKey = useContext(AccordionContext);
 
     const decoratedOnClick = useAccordionToggle(
@@ -15,13 +15,29 @@ function ContextAwareToggle({ children, eventKey, callback }) {
     const isCurrentEventKey = currentEventKey === eventKey;
 
     return (
-        <button
-            type="button"
-            style={{ backgroundColor: isCurrentEventKey ? '#5B7ED7' : 'lavender' }}
-            onClick={decoratedOnClick}
-        >
-            {children}
-        </button>
+        <div>
+            {id === 1 ?
+                <div
+                    style={{
+                        backgroundColor: isCurrentEventKey ? '#5B7ED7' : 'lightgray',
+                        color: isCurrentEventKey ? 'white' : 'black'
+                    }}
+                    onClick={decoratedOnClick}
+                >
+                    {children}
+                </div>
+                :
+                <div
+                    style={{
+                        backgroundColor: isCurrentEventKey ? '#D7D8DA' : 'lightgray',
+                        color: isCurrentEventKey ? 'white' : "black"
+                    }}
+                    onClick={decoratedOnClick}
+                >
+                    {children}
+                </div>
+            }
+        </div>
     );
 }
 
@@ -30,7 +46,7 @@ function App() {
     <div>
         <Accordion defaultActiveKey="0">
             <div>
-                <ContextAwareToggle className="menu" variant="link" eventKey="0">
+                <ContextAwareToggle className="menu" variant="link" eventKey="0" id={1}>
                     Click me!
                 </ContextAwareToggle>
                 <Accordion.Collapse eventKey="0">
@@ -38,7 +54,7 @@ function App() {
                         {menuList.map((menu, index) => {
                             return (
                                 <div>
-                                    <ContextAwareToggle variant="link" eventKey={index+1}>
+                                    <ContextAwareToggle variant="link" eventKey={index+1} id={2}>
                                         <span>{menu.parentStateName}</span> - <span>{menu.count}</span>
                                     </ContextAwareToggle>
                                     <Accordion.Collapse eventKey={index+1} style={{marginLeft: 30}}>
@@ -59,7 +75,7 @@ function App() {
                 </Accordion.Collapse>
             </div>
             <div>
-                <ContextAwareToggle variant="link" eventKey="1">
+                <ContextAwareToggle variant="link" eventKey="1" id={1}>
                     Click me!
                 </ContextAwareToggle>
                 <Accordion.Collapse eventKey="1">
